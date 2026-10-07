@@ -1,0 +1,5 @@
+.env
+__pycache__/
+data/journal.jsonl
+data/b24_outbox.jsonl
+data/kp/
