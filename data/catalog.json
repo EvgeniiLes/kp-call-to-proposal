@@ -1,0 +1,484 @@
+[
+ {
+  "id": "truck:c16947",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Шиномонтажный станок грузовой TS-26D",
+  "brand": "",
+  "price_rub": 329900,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "14-26"
+  }
+ },
+ {
+  "id": "truck:c8541",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Шиномонтажный станок Грузовой 14-42”, TS-52D",
+  "brand": "",
+  "price_rub": 499900,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "14-42"
+  }
+ },
+ {
+  "id": "truck:c17631",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Шиномонтажный станок для грузовых авто GT-56P",
+  "brand": "",
+  "price_rub": 735326,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "14-56"
+  }
+ },
+ {
+  "id": "truck:c14314",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Шиномонтажный станок CORGHI HD1800 HYDRYS",
+  "brand": "CORGHI",
+  "price_rub": 4990000,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "14-60"
+  }
+ },
+ {
+  "id": "truck:c23975",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Шиномонтажный станок для колес г/а, зажим 14\"-26\", BRIGHT, LC588S",
+  "brand": "BRIGHT",
+  "price_rub": 419775,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "14-26"
+  }
+ },
+ {
+  "id": "truck:c614",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Шиномонтажный станок для колес грузовых автомобилей ЧЗАО Ш515Е",
+  "brand": "ЧЗАО",
+  "price_rub": 573000,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "14-26"
+  }
+ },
+ {
+  "id": "truck:c21957",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Станок шиномонтажный электрогидравлический для колес грузовых а/м, AREO TiREX 560",
+  "brand": "AREO",
+  "price_rub": 956980,
+  "voltage": "380/415",
+  "specs": {
+   "Диаметр обода, дюйм": "14-46"
+  }
+ },
+ {
+  "id": "truck:c14316",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Шиномонтажный станок CORGHI HD 650 Tilt (Генератор, компрессор)",
+  "brand": "CORGHI",
+  "price_rub": 2538875,
+  "voltage": "220",
+  "specs": {
+   "Диаметр обода, дюйм": "13-26"
+  }
+ },
+ {
+  "id": "truck:c16068",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Грузовой балансировочный станок TS-850",
+  "brand": "",
+  "price_rub": 139900,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "13-24"
+  }
+ },
+ {
+  "id": "truck:c3133",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Станок балансировочный для грузовых машин, 220 В 45TRKE",
+  "brand": "NORDBERG",
+  "price_rub": 167600,
+  "voltage": "220",
+  "specs": {
+   "Диаметр обода, дюйм": "13-25"
+  }
+ },
+ {
+  "id": "truck:c665",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Станок балансировочный для грузовых машин, синий, 380 В 45TRK(B)",
+  "brand": "NORDBERG",
+  "price_rub": 202000,
+  "voltage": "380",
+  "specs": {
+   "Диаметр обода, дюйм": "10-24"
+  }
+ },
+ {
+  "id": "truck:c21961",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Станок балансировочный для колес грузовых автомобилей, AREO GEODHeX 988",
+  "brand": "AREO",
+  "price_rub": 325498,
+  "voltage": "230",
+  "specs": {}
+ },
+ {
+  "id": "truck:c13203",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Балансировочный станок грузовой System4you Smart Trucker P",
+  "brand": "System4you",
+  "price_rub": 380000,
+  "voltage": "220",
+  "specs": {
+   "Диаметр обода, дюйм": "9-30"
+  }
+ },
+ {
+  "id": "truck:c10252",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Балансировочный станок грузовой СТОРМ MAXI P",
+  "brand": "STORM",
+  "price_rub": 470000,
+  "voltage": "220",
+  "specs": {
+   "Диаметр обода, дюйм": "9-28"
+  }
+ },
+ {
+  "id": "truck:c14294",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "Балансировочный станок CORGHI ET77",
+  "brand": "CORGHI",
+  "price_rub": 757150,
+  "voltage": "220",
+  "specs": {
+   "Диаметр обода, дюйм": "7-30"
+  }
+ },
+ {
+  "id": "truck:c19324",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "M&B MB250 T Станок балансировочный автоматический для грузовых автомобилей",
+  "brand": "M&B",
+  "price_rub": 1232567,
+  "voltage": "220",
+  "specs": {
+   "Диаметр обода, дюйм": "10-30"
+  }
+ },
+ {
+  "id": "truck:eae-hdm86",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "EVERLIFT EE-HDM86",
+  "brand": "EVERLIFT",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {}
+ },
+ {
+  "id": "truck:eae-hdm84",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "EVERLIFT EE-HDM84",
+  "brand": "EVERLIFT",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {}
+ },
+ {
+  "id": "truck:eae-hdm104",
+  "site": "truck",
+  "source_var": "NB_CATALOG",
+  "kind": "product",
+  "name": "EVERLIFT EE-HDM104",
+  "brand": "EVERLIFT",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {}
+ },
+ {
+  "id": "truck:c5472",
+  "site": "truck",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "Пневмогидравлический домкрат AE&T T22035",
+  "brand": "AE&T",
+  "price_rub": 26490,
+  "voltage": "",
+  "specs": {
+   "Грузоподъёмность": "35 т",
+   "Высота подхвата / подъёма, мм": "257 / 627",
+   "Рабочее давление воздуха, бар": "8",
+   "Производитель": "AE&T"
+  }
+ },
+ {
+  "id": "truck:c22195",
+  "site": "truck",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "Грузовой гайковёрт 1″ EQFS ES-7185",
+  "brand": "",
+  "price_rub": 19950,
+  "voltage": "",
+  "specs": {
+   "Квадрат": "1″",
+   "Крутящий момент, Нм": "4350",
+   "Рабочее давление, бар": "6,5–10",
+   "Длина вала, мм": "225",
+   "Вес, кг": "19"
+  }
+ },
+ {
+  "id": "truck:c19899",
+  "site": "truck",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "Ресивер РВ500.16.00 с арматурой",
+  "brand": "",
+  "price_rub": 50333,
+  "voltage": "",
+  "specs": {
+   "Объём, л": "500",
+   "Рабочее давление, бар": "16",
+   "Арматура": "в комплекте"
+  }
+ },
+ {
+  "id": "truck:c23612",
+  "site": "truck",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "Гайковёрт ударный 1″ eqtree PT1440",
+  "brand": "",
+  "price_rub": 44768,
+  "voltage": "",
+  "specs": {
+   "Квадрат": "1″",
+   "Крутящий момент, Нм": "4000",
+   "Скорость вращения, об/мин": "4000",
+   "Ударный механизм": "Pinless Hammer",
+   "Вес, кг": "12,7"
+  }
+ },
+ {
+  "id": "truck:c5136",
+  "site": "truck",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "Домкрат пневмогидравлический подкатной AE&T HJ-40/20, 40/20 т",
+  "brand": "AE&T",
+  "price_rub": 67559,
+  "voltage": "",
+  "specs": {
+   "Грузоподъёмность, т": "40 / 20",
+   "Высота подхвата / подъёма, мм": "165 / 330",
+   "Рабочее давление воздуха, бар": "8–12",
+   "Производитель": "AE&T"
+  }
+ },
+ {
+  "id": "truck:c18615",
+  "site": "truck",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "Винтовой компрессор Ironmac IC 20/16 VX",
+  "brand": "",
+  "price_rub": 291786,
+  "voltage": "",
+  "specs": {
+   "Производительность, л/мин": "1300",
+   "Рабочее давление, бар": "16",
+   "Мощность, кВт": "15",
+   "Питание, В": "380",
+   "Вес, кг": "335"
+  }
+ },
+ {
+  "id": "truck:kp-remeza-lb75",
+  "site": "truck",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "Поршневой компрессор Remeza СБ4/Ф-500.LB75",
+  "brand": "",
+  "price_rub": 149300,
+  "voltage": "",
+  "specs": {
+   "Производительность на входе, л/мин": "950",
+   "Объём ресивера, л": "500",
+   "Рабочее давление, бар": "10",
+   "Мощность, кВт": "5,5",
+   "Питание, В": "380"
+  }
+ },
+ {
+  "id": "technovector:tv-7202-mc",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 7202 MC",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "легковые",
+   "Камеры": "2 шт",
+   "Установка": "мобильный · яма и подъёмник",
+   "Гарантия": "2 года, официальная"
+  }
+ },
+ {
+  "id": "technovector:tv-7202-tas",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 7202 TAS",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "легковые",
+   "Камеры": "2 шт",
+   "Установка": "напольный или настенный · яма и подъёмник",
+   "Гарантия": "2 года, официальная"
+  }
+ },
+ {
+  "id": "technovector:tv-7204-tas",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 7204 TAS",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "легковые",
+   "Камеры": "4 шт",
+   "Установка": "напольный или настенный · на подъёмник",
+   "Гарантия": "2 года, официальная"
+  }
+ },
+ {
+  "id": "technovector:tv-7202-kas",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 7202 KAS",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "легковые и грузовые",
+   "Камеры": "2 шт",
+   "Установка": "настенный · яма и подъёмник",
+   "Гарантия": "2 года, официальная"
+  }
+ },
+ {
+  "id": "technovector:tv-truck-7204-ht-mc2",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 7 Truck 7204 HT MC2",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "грузовые",
+   "Камеры": "4 шт",
+   "Установка": "мобильный · на яму",
+   "Гарантия": "2 года, официальная"
+  }
+ },
+ {
+  "id": "technovector:tv-truck-7204-hts4",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 7 Truck 7204 HTS4",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "грузовые",
+   "Камеры": "4 шт",
+   "Установка": "напольный · на яму",
+   "Гарантия": "2 года, официальная"
+  }
+ },
+ {
+  "id": "technovector:tv-7204-has",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 7204 HAS",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "грузовые",
+   "Камеры": "4 шт",
+   "Установка": "напольный или настенный · на подъёмник",
+   "Гарантия": "2 года, официальная"
+  }
+ },
+ {
+  "id": "technovector:tv-8-8218",
+  "site": "technovector",
+  "source_var": "NB_PRODUCTS",
+  "kind": "product",
+  "name": "ТехноВектор 8 8218",
+  "brand": "",
+  "price_rub": null,
+  "voltage": "",
+  "specs": {
+   "Сегмент": "бесконтактные",
+   "Камеры": "18 шт",
+   "Установка": "напольный или настенный · на подъёмник",
+   "Гарантия": "2 года, официальная"
+  }
+ }
+]
