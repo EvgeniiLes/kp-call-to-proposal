@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Подбор КП по звонку</title>
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--text:#1d2433;--muted:#667085;--line:#e4e7ec;--brand:#1f3864;--accent:#2f6fed;
+--ok:#12805c;--okbg:#e7f6ef;--warn:#9a6700;--warnbg:#fff8e6;--bad:#b42318;--badbg:#fdecea;--hl:#fff1b8}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 Arial,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+header{background:var(--brand);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+header h1{font-size:17px;margin:0;font-weight:600}
+.badge{font-size:12px;padding:3px 8px;border-radius:99px;background:rgba(255,255,255,.15)}
+.badge.llm{background:#3ccf91;color:#063}
+header .sp{flex:1}
+main{display:grid;grid-template-columns:minmax(320px,5fr) 7fr;gap:16px;padding:16px;max-width:1500px;margin:0 auto}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 10px}
+textarea{width:100%;min-height:220px;font:13px/1.45 Consolas,monospace;padding:10px;border:1px solid var(--line);border-radius:8px;resize:vertical}
+select,input{font:inherit;padding:6px 8px;border:1px solid #cfd4dc;border-radius:6px;background:#fff;max-width:100%}
+button{font:inherit;padding:8px 14px;border-radius:7px;border:1px solid #cfd4dc;background:#fff;cursor:pointer}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.muted{color:var(--muted)} .small{font-size:12px}
+.tr{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.ln{padding:6px 10px;border-bottom:1px solid #f0f2f5;display:flex;gap:8px}
+.ln .who{flex:0 0 74px;font-size:12px;color:var(--muted);padding-top:1px}
+.ln.client .who{color:#7a3fd1}
+.ln.hl{background:var(--hl)} .ln.sum{border-left:3px solid var(--ok)}
+.ln.flash{animation:fl 1.2s} @keyframes fl{0%{background:#ffd666}100%{background:var(--hl)}}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);border-radius:99px;padding:3px 10px;font-size:13px;background:#fafbfc}
+.chip.q{cursor:pointer;border-color:#c9d6f5} .chip.q:hover{background:#eef3ff}
+.chip.none{color:var(--muted);border-style:dashed}
+.w{padding:8px 10px;border-radius:7px;margin-bottom:6px;display:flex;gap:8px;align-items:flex-start;font-size:13px}
+.w.block{background:var(--badbg);color:var(--bad)} .w.warn{background:var(--warnbg);color:var(--warn)}
+.w.info{background:#f2f4f7;color:#475467} .w.acked{opacity:.55}
+.w label{white-space:nowrap;margin-left:auto;font-size:12px;color:var(--text);cursor:pointer}
+table{width:100%;border-collapse:collapse}
+th{font-size:12px;color:var(--muted);text-align:left;font-weight:600;padding:6px 6px;border-bottom:1px solid var(--line)}
+td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+td select{width:100%}
+.reason{font-size:12px;color:#475467;margin-top:4px}
+.viol{font-size:12px;color:var(--bad);margin-top:3px}
+a.q{color:var(--accent);cursor:pointer;text-decoration:underline dotted}
+.tot{display:grid;grid-template-columns:1fr auto;gap:4px 16px;justify-content:end;margin-top:10px;text-align:right}
+.tot b{font-size:18px}
+.bar{height:6px;border-radius:3px;background:#e9ecf1;margin-top:8px;overflow:hidden}
+.bar>div{height:100%;background:var(--ok)} .bar>div.over{background:var(--bad)}
+.ok{color:var(--ok)} .bad{color:var(--bad)}
+.res{border:1px solid var(--line);border-radius:7px;max-height:220px;overflow:auto;margin-top:6px}
+.res div{padding:6px 10px;border-bottom:1px solid #f0f2f5;cursor:pointer;font-size:13px}
+.res div:hover{background:#eef3ff}
+pre{background:#0f172a;color:#d6e2ff;padding:10px;border-radius:8px;font-size:12px;overflow:auto;max-height:320px}
+.hidden{display:none}
+.dlv{margin-top:12px;padding:10px 12px;background:#f7f9fc;border:1px solid var(--line);border-radius:8px}
+.empty{padding:40px 10px;text-align:center;color:var(--muted)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-right-color:transparent;border-radius:50%;animation:sp 0.7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Подбор КП по звонку</h1>
+  <span id="mode" class="badge">…</span>
+  <span class="sp"></span>
+  <span id="stats" class="small"></span>
+</header>
+<main>
+  <section>
+    <div class="card">
+      <h2>Расшифровка звонка</h2>
+      <div class="row" style="margin-bottom:8px">
+        <select id="sample"><option value="">— пример звонка —</option></select>
+        <label class="small row" id="llmToggleWrap" style="gap:4px"><input type="checkbox" id="useLlm"> ИИ</label>
+      </div>
+      <textarea id="text" placeholder="Менеджер: …&#10;Клиент: …"></textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="primary" id="go">Разобрать звонок</button>
+        <span class="small muted">Формат: «Менеджер: …» / «Клиент: …» по строкам</span>
+      </div>
+    </div>
+    <div class="card hidden" id="trCard">
+      <h2>Разговор <span class="muted" style="text-transform:none;letter-spacing:0">— подсвечены фразы, из которых взяты данные</span></h2>
+      <div class="tr" id="tr"></div>
+    </div>
+  </section>
+
+  <section id="right">
+    <div class="card empty" id="placeholder">Вставьте расшифровку или выберите пример и нажмите «Разобрать звонок».</div>
+    <div id="draft" class="hidden">
+      <div class="card">
+        <h2>Итоги звонка</h2>
+        <div id="summary"></div>
+      </div>
+      <div class="card">
+        <h2>Потребность клиента</h2>
+        <div class="chips" id="need"></div>
+      </div>
+      <div class="card" id="warnCard">
+        <h2>Проверьте</h2>
+        <div id="warns"></div>
+      </div>
+      <div class="card">
+        <h2>Черновик КП</h2>
+        <table>
+          <thead><tr><th>Позиция</th><th class="n" style="width:70px">Кол-во</th><th class="n" style="width:130px">Цена</th><th class="n" style="width:110px">Сумма</th><th style="width:28px"></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div class="row" style="margin-top:10px">
+          <select id="addKind"></select>
+          <input id="addQ" placeholder="Добавить из каталога: модель или слово" style="flex:1;min-width:180px">
+        </div>
+        <div class="res hidden" id="addRes"></div>
+        <div class="dlv">
+          <div class="row">
+            <label class="row" style="gap:4px"><input type="checkbox" id="dlvOn" checked> <b>Доставка</b> со склада в Москве до</label>
+            <input id="dlvCity" list="cityList" placeholder="город" style="width:190px">
+            <span class="small muted">или</span>
+            <input id="dlvKm" type="number" min="0" placeholder="км" style="width:80px" title="Расстояние от Москвы, если города нет в справочнике">
+          </div>
+          <div id="dlvInfo" class="small muted" style="margin-top:6px"></div>
+          <datalist id="cityList"></datalist>
+        </div>
+        <div class="tot">
+          <span class="muted">Оборудование</span><span id="sub">0 ₽</span>
+          <span class="muted">Скидка, % <input id="disc" type="number" min="0" step="1" value="0" style="width:64px"></span><span id="discSum">0 ₽</span>
+          <span class="muted">Доставка</span><span id="dlvSum">—</span>
+          <span>К оплате</span><b id="total">0 ₽</b>
+        </div>
+        <div id="budget" class="small" style="text-align:right;margin-top:6px"></div>
+      </div>
+      <div class="card" id="qCard">
+        <h2>Вопросы клиенту</h2>
+        <ol id="questions" style="margin:0 0 8px;padding-left:20px"></ol>
+        <button id="copyQ">Скопировать вопросы</button>
+      </div>
+      <div class="card">
+        <h2>Оформление</h2>
+        <div class="row" style="margin-bottom:10px">
+          <input id="client" placeholder="Клиент (компания)" style="flex:1">
+          <input id="deal" placeholder="ID сделки Б24" style="width:130px">
+          <input id="manager" placeholder="Менеджер" style="width:160px">
+        </div>
+        <div class="row">
+          <button class="primary" id="mk">Сформировать КП</button>
+          <span id="mkHint" class="small muted"></span>
+        </div>
+        <div id="kpOut" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rub = v => (Math.round(v) || 0).toLocaleString('ru-RU').replace(/,/g, ' ') + ' ₽';
+const norm = s => String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').replace(/^[\s.,!?«»"]+|[\s.,!?«»"]+$/g, '');
+
+let META = {}, D = null, ROWS = [], ACK = new Set(), KP = null, DLV = null;
+
+async function api(url, body) {
+  const r = await fetch(url, body ? {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)} : {});
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.detail || ('Ошибка ' + r.status));
+  return j;
+}
+
+async function init() {
+  META = await api('/api/meta');
+  $('#mode').textContent = META.llm ? 'ИИ: ' + META.model : 'Режим: правила (нет ключа API)';
+  $('#mode').className = 'badge' + (META.llm ? ' llm' : '');
+  $('#useLlm').checked = META.llm; $('#useLlm').disabled = !META.llm;
+  $('#llmToggleWrap').title = META.llm ? 'Снимите, чтобы сравнить с разбором по правилам' : 'Задайте ANTHROPIC_API_KEY, чтобы включить ИИ';
+  META.samples.forEach(s => $('#sample').insertAdjacentHTML('beforeend', `<option value="${esc(s)}">${esc(s.replace(/_/g, ' '))}</option>`));
+  $('#addKind').innerHTML = '<option value="">все виды</option>' + Object.entries(META.kinds).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('');
+  $('#disc').max = META.discount_limit;
+  $('#cityList').innerHTML = (await api('/api/cities')).map(c => `<option value="${esc(c)}">`).join('');
+  loadStats();
+  // демо: /?sample=имя&auto=1[&llm=0][&ack=1] — сразу загрузить пример и разобрать
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('sample')) {
+    $('#sample').value = qs.get('sample');
+    $('#text').value = (await api('/api/samples/' + encodeURIComponent(qs.get('sample')))).text;
+    if (qs.get('llm') === '0') $('#useLlm').checked = false;
+    if (qs.get('auto') === '1') {
+      await $('#go').onclick();
+      if (qs.get('ack') === '1') { D.warnings.forEach(w => w.level === 'block' && ACK.add(w.id)); render(); }
+      document.body.dataset.ready = '1';
+    }
+  }
+}
+async function loadStats() {
+  const s = await api('/api/stats');
+  $('#stats').textContent = `черновиков: ${s.drafts} · КП: ${s.kp} · без правок агента: ${s.kp_without_edits}`;
+}
+
+$('#sample').onchange = async e => { if (e.target.value) $('#text').value = (await api('/api/samples/' + encodeURIComponent(e.target.value))).text; };
+
+$('#go').onclick = async () => {
+  const btn = $('#go'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Разбираю…';
+  try {
+    D = await api('/api/analyze', {text: $('#text').value, use_llm: META.llm ? $('#useLlm').checked : false});
+    ACK = new Set(); KP = null; $('#kpOut').innerHTML = '';
+    ROWS = D.slots.filter(s => s.selected).map(s => ({
+      kind_name: s.kind_name, options: s.options, selected: s.selected, agentPick: s.selected, alternatives: s.alternatives,
+      qty: s.qty, price_manual: null, quote: s.quote, reason: s.reason, violations: s.violations}));
+    $('#dlvCity').value = D.need.city.value || ''; $('#dlvKm').value = ''; $('#dlvOn').checked = true;
+    DLV = D.delivery;
+    render(); loadStats();
+  } catch (e) { alert(e.message); }
+  finally { btn.disabled = false; btn.textContent = 'Разобрать звонок'; }
+};
+
+// ---------- расшифровка и цитаты
+function lineOf(quote) {
+  const q = norm(quote); if (!q) return -1;
+  const ln = D.lines.find(l => norm(l.text).includes(q));
+  return ln ? ln.i : -1;
+}
+function jump(quote) {
+  const i = lineOf(quote); const el = document.getElementById('ln' + i);
+  if (!el) return;
+  el.scrollIntoView({behavior: 'smooth', block: 'center'});
+  el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+}
+function quoteLink(q, label = 'из разговора') { return q ? ` <a class="q" data-q="${esc(q)}">${esc(label)}</a>` : ''; }
+document.addEventListener('click', e => { const a = e.target.closest('[data-q]'); if (a) jump(a.dataset.q); });
+
+function renderTranscript() {
+  const n = D.need, quotes = [n.summary_quote, ...['vehicle', 'max_rim_inch', 'voltage', 'budget_rub', 'installation'].map(k => n[k].quote),
+    ...D.slots.map(s => s.quote), ...n.conflicts.flatMap(c => [c.dialog_quote, c.summary_quote])].filter(Boolean);
+  const hl = new Set(quotes.map(lineOf));
+  const sumLine = lineOf(n.summary_quote);
+  $('#tr').innerHTML = D.lines.map(l => `<div id="ln${l.i}" class="ln ${l.speaker} ${hl.has(l.i) ? 'hl' : ''} ${l.i >= sumLine && sumLine >= 0 && l.speaker === 'manager' && l.i <= sumLine + 1 ? 'sum' : ''}">
+    <span class="who">${l.speaker === 'manager' ? 'Менеджер' : l.speaker === 'client' ? 'Клиент' : '—'}</span><span>${esc(l.text)}</span></div>`).join('');
+  $('#trCard').classList.remove('hidden');
+}
+
+// ---------- правая часть
+function render() {
+  $('#placeholder').classList.add('hidden'); $('#draft').classList.remove('hidden');
+  renderTranscript();
+  const n = D.need;
+  const status = n.summary_found
+    ? `<span class="ok">✓ менеджер подвёл итог</span>${n.client_confirmed ? ' · <span class="ok">клиент подтвердил</span>' : ' · <span class="bad">клиент не подтвердил</span>'}${quoteLink(n.summary_quote, 'резюме')}`
+    : '<span class="bad">✗ итог в конце звонка не проговорён</span>';
+  $('#summary').innerHTML = `<p style="margin:0 0 8px">${esc(n.summary)}</p><div class="small">${status}</div>
+    ${n.next_steps.length ? `<div class="small" style="margin-top:8px"><b>Договорённости:</b> ${n.next_steps.map(esc).join(' · ')}</div>` : ''}
+    ${n.deadline ? `<div class="small" style="margin-top:4px"><b>Обещанный срок КП:</b> ${esc(n.deadline)} → задача менеджеру в Б24</div>` : ''}
+    <div class="small muted" style="margin-top:6px">Разбор: ${D.mode === 'llm' ? 'ИИ (' + esc(D.model) + ')' : 'правила'}</div>`;
+
+  const F = [['vehicle', 'Транспорт', v => v], ['max_rim_inch', 'Колёса', v => 'до R' + v], ['voltage', 'Питание', v => v + ' В'],
+             ['budget_rub', 'Бюджет', v => 'до ' + rub(v)], ['installation', 'Установка', v => v], ['city', 'Город', v => v]];
+  $('#need').innerHTML = F.map(([k, label, f]) => {
+    const x = n[k];
+    return x.value == null ? `<span class="chip none">${label}: ?</span>`
+      : `<span class="chip ${x.quote ? 'q' : ''}" ${x.quote ? `data-q="${esc(x.quote)}"` : ''}>${label}: <b>${esc(f(x.value))}</b></span>`;
+  }).join('');
+
+  $('#warns').innerHTML = D.warnings.length ? D.warnings.map(w => `<div class="w ${w.level} ${ACK.has(w.id) ? 'acked' : ''}">
+      <span>${w.level === 'block' ? '⛔' : w.level === 'warn' ? '⚠️' : 'ℹ️'}</span>
+      <span>${esc(w.text)}${quoteLink(w.quote)}</span>
+      ${w.level === 'block' ? `<label><input type="checkbox" data-ack="${w.id}" ${ACK.has(w.id) ? 'checked' : ''}> проверил</label>` : ''}
+    </div>`).join('') : '<div class="small ok">Замечаний нет.</div>';
+  document.querySelectorAll('[data-ack]').forEach(c => c.onchange = () => { c.checked ? ACK.add(c.dataset.ack) : ACK.delete(c.dataset.ack); render(); });
+
+  $('#questions').innerHTML = n.open_questions.map(q => `<li>${esc(q)}</li>`).join('');
+  $('#qCard').classList.toggle('hidden', !n.open_questions.length);
+  renderRows();
+}
+
+function sel(r) { return r.options.find(o => o.id === r.selected); }
+function priceOf(r) { const p = sel(r); return p && p.price != null ? p.price : (r.price_manual || 0); }
+
+function renderRows() {
+  $('#rows').innerHTML = ROWS.map((r, i) => {
+    const p = sel(r);
+    const order = [r.selected, ...r.alternatives, ...r.options.map(o => o.id)].filter((v, j, a) => v && a.indexOf(v) === j);
+    const opts = order.map(id => { const o = r.options.find(x => x.id === id);
+      const tag = id === r.agentPick ? '★ ' : r.alternatives.includes(id) ? 'альт. ' : '';
+      return `<option value="${esc(id)}" ${id === r.selected ? 'selected' : ''}>${tag}${esc(o.name)} — ${o.price != null ? rub(o.price) : 'по запросу'}</option>`; }).join('');
+    return `<tr>
+      <td><div class="small muted">${esc(r.kind_name)}</div>
+        <select data-sel="${i}">${opts}</select>
+        ${r.reason ? `<div class="reason">${esc(r.reason)}${quoteLink(r.quote, 'слова клиента')}</div>` : ''}
+        ${r.violations && r.violations.length ? `<div class="viol">Не совпадает с требованиями: ${esc(r.violations.join('; '))}</div>` : ''}</td>
+      <td class="n"><input type="number" min="1" value="${r.qty}" data-qty="${i}" style="width:56px"></td>
+      <td class="n">${p && p.price != null ? rub(p.price) : `<input type="number" min="1" placeholder="цена, ₽" value="${r.price_manual || ''}" data-pm="${i}" style="width:110px;border-color:#f5a524">`}</td>
+      <td class="n">${rub(priceOf(r) * r.qty)}</td>
+      <td><button title="Убрать" data-del="${i}" style="padding:2px 8px">×</button></td></tr>`;
+  }).join('') || '<tr><td colspan=5 class="muted small">Позиций нет — добавьте из каталога ниже.</td></tr>';
+  document.querySelectorAll('[data-sel]').forEach(s => s.onchange = () => { ROWS[s.dataset.sel].selected = s.value; ROWS[s.dataset.sel].price_manual = null; renderRows(); });
+  document.querySelectorAll('[data-qty]').forEach(s => s.onchange = () => { ROWS[s.dataset.qty].qty = Math.max(1, +s.value || 1); renderRows(); });
+  document.querySelectorAll('[data-pm]').forEach(s => s.onchange = () => { ROWS[s.dataset.pm].price_manual = +s.value || null; renderRows(); });
+  document.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { ROWS.splice(+b.dataset.del, 1); renderRows(); });
+  totals(); scheduleDlv();
+}
+
+// ---------- доставка (сервер считает, браузер только показывает)
+let td;
+function scheduleDlv() { clearTimeout(td); td = setTimeout(recalcDlv, 250); }
+async function recalcDlv() {
+  if (!$('#dlvOn').checked) { DLV = null; renderDlv(); return; }
+  const km = $('#dlvKm').value;
+  DLV = await api('/api/delivery', {items: ROWS.map(r => ({id: r.selected, qty: r.qty})),
+    city: $('#dlvCity').value.trim() || null, km: km === '' ? null : +km});
+  renderDlv();
+}
+function renderDlv() {
+  const on = $('#dlvOn').checked;
+  if (!on) $('#dlvInfo').textContent = 'Доставка не включена в КП — клиент забирает сам или считаем отдельно.';
+  else if (!DLV) $('#dlvInfo').textContent = '';
+  else if (!DLV.ok) $('#dlvInfo').innerHTML = `<span class="bad">${esc(DLV.error)}</span>`;
+  else $('#dlvInfo').innerHTML = `${DLV.city ? esc(DLV.city) + ' · ' : ''}${DLV.km} км · платный вес ${DLV.weight_kg} кг · срок ${esc(DLV.days)}<br>
+    ${esc(DLV.formula)}${DLV.free.length ? '<br>' + DLV.free.map(esc).join('<br>') : ''}<br><i>${esc(DLV.assumption)}</i>`;
+  totals();
+}
+$('#dlvOn').onchange = recalcDlv;
+$('#dlvCity').oninput = () => { $('#dlvKm').value = ''; scheduleDlv(); };
+$('#dlvKm').oninput = scheduleDlv;
+
+function totals() {
+  const sub = ROWS.reduce((a, r) => a + priceOf(r) * r.qty, 0);
+  let d = +$('#disc').value || 0;
+  const dOver = d > META.discount_limit;
+  const ds = Math.round(sub * d / 100);
+  const dc = $('#dlvOn').checked && DLV && DLV.ok ? DLV.cost : 0;
+  $('#dlvSum').textContent = !$('#dlvOn').checked ? 'не включена' : DLV && DLV.ok ? (dc ? rub(dc) : 'бесплатно') : '?';
+  $('#sub').textContent = rub(sub); $('#discSum').textContent = '−' + rub(ds); $('#total').textContent = rub(sub - ds + dc);
+  $('#disc').style.borderColor = dOver ? 'var(--bad)' : '';
+  const b = D.need.budget_rub.value;
+  if (b) {
+    const t = sub - ds + dc, pct = Math.min(100, t / b * 100), over = t > b;
+    $('#budget').innerHTML = `${over ? `<span class="bad">дороже бюджета на ${rub(t - b)}</span>` : `<span class="ok">в бюджете, запас ${rub(b - t)}</span>`} · бюджет ${rub(b)}${dc ? ' (с доставкой)' : ''}
+      <div class="bar"><div class="${over ? 'over' : ''}" style="width:${pct}%"></div></div>`;
+  } else $('#budget').textContent = 'Бюджет клиент не назвал';
+  gate(dOver);
+}
+
+function gate(dOver = (+$('#disc').value || 0) > META.discount_limit) {
+  const reasons = [];
+  const open = D.warnings.filter(w => w.level === 'block' && !ACK.has(w.id)).length;
+  if (open) reasons.push(`подтвердите замечания (${open})`);
+  if (!ROWS.length) reasons.push('добавьте позиции');
+  if (ROWS.some(r => { const p = sel(r); return p && p.price == null && !r.price_manual; })) reasons.push('впишите цены «по запросу»');
+  if (dOver) reasons.push(`скидка больше ${META.discount_limit}% — нужно согласование`);
+  if ($('#dlvOn').checked && !(DLV && DLV.ok)) reasons.push('укажите город или км для доставки (или отключите её)');
+  $('#mk').disabled = reasons.length > 0;
+  $('#mkHint').textContent = reasons.length ? 'Чтобы сформировать: ' + reasons.join(', ') : 'Цены и наличие будут перепроверены при формировании.';
+}
+$('#disc').oninput = totals;
+
+// ---------- каталог
+let tq;
+$('#addQ').oninput = $('#addKind').onchange = () => { clearTimeout(tq); tq = setTimeout(findCat, 200); };
+async function findCat() {
+  const q = $('#addQ').value.trim(), k = $('#addKind').value;
+  if (!q && !k) { $('#addRes').classList.add('hidden'); return; }
+  const res = await api(`/api/catalog?q=${encodeURIComponent(q)}&kind=${encodeURIComponent(k)}`);
+  $('#addRes').innerHTML = res.map((p, i) => `<div data-add="${i}">${esc(p.name)} <span class="muted">· ${esc(p.kind_name)} · ${p.price != null ? rub(p.price) : 'по запросу'}</span></div>`).join('') || '<div class="muted">Ничего не найдено</div>';
+  $('#addRes').classList.remove('hidden');
+  document.querySelectorAll('[data-add]').forEach(d => d.onclick = () => {
+    const p = res[d.dataset.add];
+    ROWS.push({kind_name: p.kind_name, options: [p], selected: p.id, alternatives: [], qty: 1, price_manual: null, quote: null, reason: 'добавлено менеджером', violations: []});
+    $('#addRes').classList.add('hidden'); $('#addQ').value = ''; renderRows();
+  });
+}
+
+// ---------- КП и Б24
+function edited() {
+  const agent = D.slots.filter(s => s.selected).map(s => s.selected + 'x' + s.qty).sort().join();
+  const now = ROWS.map(r => r.selected + 'x' + r.qty).sort().join();
+  return agent !== now;
+}
+$('#mk').onclick = async () => {
+  const body = {draft_id: D.draft_id, client: $('#client').value, deal_id: $('#deal').value, manager: $('#manager').value,
+    discount_pct: +$('#disc').value || 0, budget: D.need.budget_rub.value, summary: D.need.summary, edited: edited(),
+    items: ROWS.map(r => ({id: r.selected, qty: r.qty, price_manual: r.price_manual})),
+    delivery: {include: $('#dlvOn').checked, city: $('#dlvCity').value.trim() || null,
+               km: $('#dlvKm').value === '' ? null : +$('#dlvKm').value}};
+  try {
+    KP = await api('/api/kp', body);
+    if (!KP.ok) { $('#kpOut').innerHTML = `<div class="w block"><span>⛔</span><span>${KP.errors.map(esc).join('<br>')}</span></div>`; return; }
+    $('#kpOut').innerHTML = `<div class="w info" style="align-items:center"><span>📄</span><span><b>${esc(KP.kp_id)}</b> на ${rub(KP.total)}</span>
+      <a href="/kp/${encodeURIComponent(KP.kp_id)}" target="_blank" style="margin-left:auto">Открыть / PDF</a>
+      <button id="b24">Отправить в Битрикс24</button></div><div id="b24out"></div>`;
+    $('#b24').onclick = async () => {
+      const r = await api('/api/b24/' + encodeURIComponent(KP.kp_id), {});
+      $('#b24out').innerHTML = `<div class="small ok" style="margin:6px 0">Заглушка Б24: в бою ушли бы эти вызовы REST (методы — допущение, уточнить).</div><pre>${esc(JSON.stringify(r.calls, null, 2))}</pre>`;
+      loadStats();
+    };
+    loadStats();
+  } catch (e) { alert(e.message); }
+};
+$('#copyQ').onclick = () => navigator.clipboard.writeText(D.need.open_questions.map((q, i) => `${i + 1}. ${q}`).join('\n'));
+init();
+</script>
+</body>
+</html>
